@@ -47,10 +47,10 @@ public class Purchase2 {
 
             Purchase2 p1 = new Purchase2("Bag", 1, 1000);
             Purchase2 p2 = new Purchase2("Shoes", 2, 1500);
-            Purchase p3 = new Purchase("Laptop", 1, 50000);
-            Purchase p4 = new Purchase("Mobile", 2, 25000);
-            Purchase p5 = new Purchase("T-shirts", 4, 700);
-            Purchase p6 = new Purchase("Jeans", 2, 1500);
+            Purchase2 p3 = new Purchase2("Laptop", 1, 50000);
+            Purchase2 p4 = new Purchase2("Mobile", 2, 25000);
+            Purchase2 p5 = new Purchase2("T-shirts", 4, 700);
+            Purchase2 p6 = new Purchase2("Jeans", 2, 1500);
             p1.printData();
             System.out.println("    ");
             p2.printData();
@@ -66,7 +66,7 @@ public class Purchase2 {
             /* p1.savePurchase(customer);
             p2.savePurchase(customer);
      */
-            /*Purchase1 currentPurchase = customer.getPurchaseList();
+            /*Purchase2 currentPurchase = customer.getPurchaseList();
             while (currentPurchase != null) {
                 currentPurchase.printData();
                 System.out.println();
