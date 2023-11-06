@@ -1,7 +1,162 @@
 package com;
+
 import java.io.*;
-import java.io.IOException;
-;
+
+class User {
+    private String username;
+    private String password;
+    private int userType;
+
+    public User(String username, String password, int userType) {
+        this.username = username;
+        this.password = password;
+        this.userType = userType;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public int getUserType() {
+        return userType;
+    }
+
+    public boolean login(String username, String password) {
+        return this.username.equals(username) && this.password.equals(password);
+    }
+
+    public void save() {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("User.txt", true));
+            writer.write(username + "," + password + "," + userType + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void printData() {
+        System.out.println("Username: " + username);
+        System.out.println("User Type: " + (userType == 1 ? "Admin" : "Customer"));
+    }
+}
+
+
+
+class Customer {
+    private User user;
+    private String name;
+    private String address;
+
+    public Customer(User user, String name, String address) {
+        this.user = user;
+        this.name = name;
+        this.address = address;
+    }
+
+    public void printDetails() {
+        System.out.println("Username: " + user.getUsername());
+        System.out.println("Name: " + name);
+        System.out.println("Address: " + address);
+    }
+
+    public void createCustomer() {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("Customers.txt", true));
+            writer.write(user.getUsername() + "," + name + "," + address + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void searchCustomer(String username) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("Customers.txt"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts[0].equals(username)) {
+                    System.out.println("Customer Details:");
+                    System.out.println("Username: " + parts[0]);
+                    System.out.println("Name: " + parts[1]);
+                    System.out.println("Address: " + parts[2]);
+                    return;
+                }
+            }
+            System.out.println("Customer not found.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+public class Product {
+    private int productId;
+    private String description;
+    private double price;
+    private int quantity;
+    private double GSTrate;
+
+ public Product(int productId, String description, double price, int quantity, double GSTrate) {
+        this.productId = productId;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.GSTrate = GSTrate;
+    }
+
+    public void saveProduct() {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("Products.txt", true));
+            writer.write(productId + "," + description + "," + price + "," + quantity + "," + GSTrate + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void printData() {
+        System.out.println("Product ID: " + productId);
+        System.out.println("Description: " + description);
+        System.out.println("Price: $" + price);
+        System.out.println("Quantity: " + quantity);
+        System.out.println("GST Rate: " + GSTrate + "%");
+    }
+
+    public void updateProduct(int productId, int newQuantity) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("Products.txt"));
+            StringBuilder updatedData = new StringBuilder();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (Integer.parseInt(parts[0]) == productId) {
+                    int currentQuantity = Integer.parseInt(parts[3]);
+                    if (currentQuantity >= newQuantity) {
+                        parts[3] = String.valueOf(currentQuantity - newQuantity);
+                        updatedData.append(String.join(",", parts)).append("\n");
+                    } else {
+                        System.out.println("Not enough stock available for the purchase.");
+                        return;
+                    }
+                } else {
+                    updatedData.append(line).append("\n");
+                }
+            }
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("Products.txt"));
+            writer.write(updatedData.toString());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
 public class SupermarketBillingSystemMain 
 {
        public static void main(String[] args) throws IOException
