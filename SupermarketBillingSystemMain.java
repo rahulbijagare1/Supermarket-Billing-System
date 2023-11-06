@@ -168,7 +168,7 @@ public class SupermarketBillingSystemMain
     	   System.out.println("Please login to continue.");
     	   boolean loggedIn = false;
     	   
-    	   while(!loggedIn) 
+    	 /*  while(!loggedIn) 
     	   {
     		   String username = "admin";
     		   String password = "admin123";
@@ -182,7 +182,27 @@ public class SupermarketBillingSystemMain
     		   {
     			   System.out.println("Login failed. Please try again.");
     		   }
-    	   }
+    	   }*/
+           
+           BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+while (!loggedIn) {
+    try {
+        System.out.print("Username: ");
+        String username = br.readLine();
+
+        System.out.print("Password: ");
+        String password = br.readLine();
+
+        if (adminUser.login(username, password)) {
+            System.out.println("Login successful! Welcome, Admin.");
+            loggedIn = true;
+        } else {
+            System.out.println("Login failed. Please try again.");
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
     	   
     	   // Admin menu
            boolean exitAdmin = false;
