@@ -1,2 +1,0 @@
-userName="Rahul"
-password="Rahul@07"
