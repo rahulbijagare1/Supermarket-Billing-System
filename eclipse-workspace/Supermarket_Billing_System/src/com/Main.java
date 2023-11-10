@@ -1,20 +1,19 @@
-package Main;
-
-
-
+package com;
 import java.io.*;
 
-import com.Customer;
-import com.Product;
-import com.User;
-import com.Purchase;
-import com.Bill;
+
 
 public class Main {
+
+	
+	
+	public static  User customerUser;
+		static double currentprice;
+	 //PurchaseLinkedList purchaseList1 = new PurchaseLinkedList();
+	
 	public static void main(String[] args) throws IOException
     {
 		
-
 		try {
 		    System.out.println("Welcome to the Supermarket Billing System.");
 		    System.out.println("Press 1 for Admin Login");
@@ -175,9 +174,11 @@ public class Main {
 				        }
 				}
 				
-
+				private static PurchaseLinkList purchaseList1 = new PurchaseLinkList();
 			private static void CustomerMenu() throws IOException {
-				    User customerUser = new User("customer", "customer123", 2);
+				
+				 PurchaseLinkList purchaseList1 = new PurchaseLinkList();
+				     customerUser = new User("Santosh", "customer123", 2);
 				    customerUser.save();
 
 				    System.out.println("Welcome to the Supermarket Billing System.");
@@ -200,7 +201,7 @@ public class Main {
 				            System.out.println("Login failed. Please try again.");
 				        }
 				    }
-				    PurchaseLinkedList purchaseList1 = new PurchaseLinkedList();
+				    PurchaseLinkList purchaseList = new PurchaseLinkList();
 				    boolean exitCustomer = false;
 				    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -251,30 +252,76 @@ public class Main {
 				                }
 				                break;
 
-				            case 3:
+				           
 				                // Buy Products
+				            case 3:
+				            	  // Buy Products
 				                System.out.print("Enter the product ID to buy: ");
 				                String productIDStr = reader.readLine();
 				                int productID = Integer.parseInt(productIDStr);
-
+				                
+				                
 				                System.out.print("Enter the quantity to buy: ");
 				                String quantityStr = reader.readLine();
 				                int quantity = Integer.parseInt(quantityStr);
+				                try {
+				                    BufferedReader reader1 = new BufferedReader(new FileReader("Products.txt"));
+				                  
 
-				                // Perform the purchase operation
-				                Product productToBuy = new Product(productID, "", 0.0, 0, 0.0); // Create a temporary product
-				                Purchase purchase = new Purchase(productToBuy, quantity, 0.0);
-				                PurchaseLinkedList purchaseList = new PurchaseLinkedList();
-				                purchaseList1.addPurchase(productToBuy, quantity, 0.0);
+				                    String line;
+				                    while ((line = reader1.readLine()) != null) {
+				                        String[] parts = line.split(",");
+				                        if ((parts[0]).equals(productIDStr)) {
+				                             currentprice = Double.parseDouble(parts[2]);
+				                            
+				                        } 
+				                    }
+				                    reader1.close();
+				                    
+				         
+				                    
+				                } catch (IOException e) {
+				                    e.printStackTrace();
+				                }
 
-			
-				                if (quantity > 0) {
-				                    double totalAmount = purchaseList1.calculateTotalAmount();
+				             
+
+				                // Check if there is sufficient stock
+				               Product productToBuy = new Product(productID, "",currentprice, 1, 1.0);
+				                Product.searchProduct(productIDStr); // Display product details
+
+				                // Retrieve available quantity from the file
+				                int availableQuantity = 0;
+				                try {
+				                    BufferedReader reader4 = new BufferedReader(new FileReader("Products.txt"));
+				                    String line;
+				                    while ((line = reader4.readLine()) != null) {
+				                        String[] parts = line.split(",");
+				                        if (parts[0].equals(productIDStr)) {
+				                            availableQuantity = Integer.parseInt(parts[3]);
+				                            break;
+				                        }
+				                    }
+				                    reader4.close();
+				                } catch (IOException e) {
+				                    e.printStackTrace();
+				                }
+
+				                // Perform the purchase operation if there is sufficient stock
+				                if (quantity > 0 && quantity <= availableQuantity) {
+				                    double totalAmount = productToBuy.getPrice() * quantity; // Assuming getPrice() method exists in the Product class
 				                    System.out.println("Purchase successful. Total amount: $" + totalAmount);
+
+				                    // Deduct the purchased quantity from available quantity
+				                    productToBuy.updateProduct(productID, quantity);
+
+				                    // Add the purchase to the Purchase List using the instance
+				                    purchaseList1.addPurchase(productToBuy, quantity, totalAmount);
 				                } else {
 				                    System.out.println("Purchase failed. Please check the product and quantity.");
 				                }
 				                break;
+				             
 
 				            case 4:
 				                // Create Bill

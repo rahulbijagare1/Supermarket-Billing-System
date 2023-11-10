@@ -15,15 +15,7 @@ public class Customer {
         this.name = name;
         this.address = address;
     }
-
-    public Customer(String string, String name2, String address2) {
-		// TODO Auto-generated constructor stub
-	}
-    
- //   public boolean Customerlogin(String username, String password) {
-     //   return this.username.equals(username) && this.password.equals(password);
-  //  }
-
+  
 	public void printDetails() {
     	
     }
@@ -59,12 +51,28 @@ public class Customer {
     }
 
 	public String getName() {
-		// TODO Auto-generated method stub
+		
 		return name;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public String getAddress() {
-		// TODO Auto-generated method stub
+		
 		return address;
 	}
 }

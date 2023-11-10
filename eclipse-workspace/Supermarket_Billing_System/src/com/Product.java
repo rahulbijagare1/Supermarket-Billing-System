@@ -66,32 +66,7 @@ public class Product {
             e.printStackTrace();
         }
     }
-    
-    
-    
-    public static void PrintAllProducts() {
-    	try {
-            BufferedReader reader = new BufferedReader(new FileReader("Products.txt"));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                  if (parts[0].equals(productId)) {
-                    System.out.println("Products Details:");
-                    System.out.println("ProductId: " + parts[0]);
-                    System.out.println("Description: " + parts[1]);
-                    System.out.println("Price: $" + parts[2]);
-                  
-                    return;
-                }
-            }
-            System.out.println("Product not found.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-        
-    	
-    
+  
     public static void searchProduct(String productid) {
         try {
             BufferedReader reader4 = new BufferedReader(new FileReader("Products.txt"));
@@ -113,9 +88,13 @@ public class Product {
         }
     }
     
+    public double getPrice() {
+        return this.price;
+    }
+
     
 	public String getDescription() {
 		
-		return description;
+		return this.description;
 	}
 }

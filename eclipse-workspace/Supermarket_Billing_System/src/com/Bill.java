@@ -1,18 +1,16 @@
 package com;
 
-
-
 import java.io.*;
 import java.util.Date;
 
 public class Bill {
 
 	
-	public PurchaseLinkedList getPurchaseList() {
+	public PurchaseLinkList getPurchaseList() {
 		return purchaseList;
 	}
 
-	public void setPurchaseList(PurchaseLinkedList purchaseList) {
+	public void setPurchaseList(PurchaseLinkList purchaseList) {
 		this.purchaseList = purchaseList;
 	}
 
@@ -40,13 +38,13 @@ public class Bill {
 		this.date = date;
 	}
 
-		private PurchaseLinkedList purchaseList;
+		private PurchaseLinkList purchaseList;
 	    private Customer customer;
 	    private double totalAmount;
 	    private Date date;
 
 	    public Bill(Customer customer) {
-	        this.purchaseList = new PurchaseLinkedList();
+	        this.purchaseList = new PurchaseLinkList();
 	        this.customer = customer;
 	        this.totalAmount = 0.0;
 	        this.date = new Date();
@@ -58,10 +56,13 @@ public class Bill {
 	    }
 
 	    public void printBill() {
+	    	
 	        System.out.println("===== Bill Details =====");
 	        System.out.println("Date: " + date);
-	        System.out.println("Customer Name: " + customer.getName());
-	        System.out.println("Customer Address: " + customer.getAddress());
+	        System.out.println();
+	        System.out.println("Customer Name: " + customer.getUser().getUsername());
+	        System.out.println();
+	       System.out.println("Customer Address: " + customer.getUser().getUsername());
 	        System.out.println("===== Purchase Details =====");
 	        purchaseList.printAllPurchases();
 	        System.out.println("Total Amount: " + totalAmount);
